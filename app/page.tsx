@@ -425,7 +425,55 @@ export default function VitaForceResearch() {
                 </div>
               </div>
 
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={(e) => {
+                e.preventDefault();
+
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                myHeaders.append("Allow-Control-Allow-Origin", "*");
+                const raw = JSON.stringify({
+                  "nombres": name,
+                  "telefono": email
+                });
+
+                const requestOptions = {
+                  method: "POST",
+                  headers: myHeaders,
+                  body: raw,
+                  redirect: "follow",
+                  mode: "no-cors"
+                };
+
+                fetch("https://crm.servisofts.com/http/rest/campana/me_interesa/dd7b2b70-0bd0-4877-bdb1-149f272a30e6", requestOptions)
+                  .then((response) => response.text())
+                  .then((result) => console.log(result))
+                  .catch((error) => console.error(error));
+
+                alert("¡Gracias por tu interés! Te contactaremos pronto.")
+                // fetch('https://crm.servisofts.com/http/api', {
+                //   method: 'POST',
+                //   headers: {
+                //     'Content-Type': 'application/json',
+                //   },
+                //   body: JSON.stringify({
+                //     "component": "campana",
+                //     "type": "me_interesa",
+                //     "key_campana": "15eca990-35fa-4c58-9edf-3c9c41ea9306",
+                //     "nombres": { name },
+                //     "telefono": { email }
+                //   }),
+                // })
+                //   .then(res => res.json())
+                //   .then(res => {
+                //     console.log('Respuesta del servidor:', res);
+                //   })
+                //   .catch(error => {
+                //     console.error('Error al enviar:', error);
+                //   });
+
+                setName("");
+                setEmail("");
+              }}>
                 <Input
                   type="text"
                   placeholder="Nombre completo"
@@ -434,14 +482,14 @@ export default function VitaForceResearch() {
                   required
                 />
                 <Input
-                  type="email"
-                  placeholder="Email profesional"
+                  type="text"
+                  placeholder="Teléfono"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
                 <Button type="submit" size="lg" className="w-full bg-red-700 hover:bg-red-800 text-lg py-4">
-                Obtener VitaForce
+                  Obtener VitaForce
                 </Button>
               </form>
 
